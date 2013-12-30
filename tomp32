@@ -1,0 +1,18 @@
+#!/bin/bash
+g_bajos=$(echo $1 | sed 's/ /_/g')
+echo ${1}
+echo ${g_bajos}
+mv "$1" "$g_bajos"
+arg=$g_bajos
+nombre=${arg/.*/ }
+extension=${arg/*./ }
+echo "$nombre"
+echo "$extension"
+ffmpeg -i "$g_bajos" -b:a 192K -vn "$HOME/Música/$nombre".mp3
+echo "Codificacion terminada"
+echo "¿Desea eliminar el video original (S/n)?"
+read respuesta
+if [ $respuesta = "s" -o $respuesta = "S" ]; then
+	echo "Eliminando"
+	rm "$g_bajos"
+fi
